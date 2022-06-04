@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class RegisterController extends Controller
 {
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/added';
+    //protected $redirectTo = '/added';
     //protected $redirectTo = '/login';
 
     /**
@@ -50,9 +52,25 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => 'required|string|max:255',
-            'mail' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:4|confirmed',
+            'username' => 'required|string|min:4|max:12',
+            'mail' => 'required|email|min:4|max:50|unique:users,mail',
+            'password' => 'required|regex:/^[a-zA-Z0-9]+$/|min:4|max:12|confirmed|unique:users,password',
+            'password_confirmation' => 'required|regex:/^[a-zA-Z0-9]+$/|min:4|max:12|',
+        ],[
+            'username.required' => '名前を入力して下さい',
+            'username.min' => '名前は4文字以上で入力して下さい',
+            'username.max' => '名前は12以下で入力して下さい',
+            'mail.required' => 'メールアドレスを入力して下さい',
+            'mail.email' => '正しいメールアドレスを入力して下さい',
+            'mail.min' => 'メールアドレスは4文字以上で入力して下さい',
+            'mail.max' => 'メールアドレスは50文字以下で入力して下さい',
+            'mail.unique' => 'そのメールアドレスは既に登録されています',
+            'password.required' => 'パスワードを入力して下さい',
+            'password.regex' => '半角英数字で入力して下さい',
+            'password.min' => 'パスワードは4文字以上で入力して下さい',
+            'password.max' => 'パスワードは12文字以下で入力して下さい',
+            'password.confirmed' => '入力したパスワードが一致しません',
+            'password.unique' => 'そのパスワードは既に登録されています'
         ]);
     }
 
@@ -79,14 +97,15 @@ class RegisterController extends Controller
     public function register(Request $request){
         if($request->isMethod('post')){
             $data = $request->input();
-
+            $this->validator($data)->validate();
             $this->create($data);
-            return redirect('added');
+            return redirect('/added');
         }
         return view('auth.register');
     }
 
     public function added(){
-        return view('auth.added');
+        $user = DB::table('users')->latest()->first();
+        return view('auth.added',compact('user'));
     }
 }
