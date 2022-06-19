@@ -18,21 +18,26 @@
     <!--iphoneのアプリアイコン指定-->
     <link rel="apple-touch-icon-precomposed" href="画像のURL" />
     <!--OGPタグ/twitterカード-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="./js/script.js"></script>
+
 </head>
 <body>
     <header>
         <div id = "head">
         <h1><a href="/top"><img src="images/main_logo.png"></a></h1>
-            <div id="">
-                <div id="">
-                    <p>{{ Auth::user()->username }}さん<img src="images/arrow.png"></p>
-                <div>
-                <ul>
-                    <li><a href="/top">ホーム</a></li>
-                    <li><a href="/profile">プロフィール</a></li>
-                    <li><a href="/logout">ログアウト</a></li>
-                </ul>
-            </div>
+
+                <nav  class="accordion-container">
+                    <p class="accordion-title js-accordion-title">{{ Auth::user()->username }}さん<img src="images/arrow.png"></p>
+                <div class="accordion-content">
+                    <ul>
+                        <li><a href="/top">ホーム</a></li>
+                        <li><a href="/profile">プロフィール</a></li>
+                        <li><a href="{{ route('logout') }}">ログアウト</a></li>
+                    </ul>
+                </nav>
+                </div>
+
         </div>
     </header>
     <div id="row">

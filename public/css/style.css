@@ -1,22 +1,93 @@
 @charset "utf-8";
-html{
-}
-body{
-}
+
+html {}
+
+body {}
+
 /* header */
-header{
-    background:#3C4767;
+header {
+    background: #3C4767;
 }
 
 /* main content */
-#row{
+#row {
     display: flex;
     flex-flow: row wrap;
 }
-#container{
+
+#container {
     flex: 0 0 80%;
 }
-#side-bar{
+
+#side-bar {
     flex: 0 0 19%;
     border-left: 1px solid #6C6C6C;
+}
+
+
+
+/* アコーデオンメニュー */
+
+.accordion-container {
+    width: 100%;
+    border: none;
+    outline: 0;
+    cursor: pointer
+}
+
+.accordion-container .accordion-title {
+    padding: 0.625em 0.625em 0.625em 2em;
+    font-size: 1em;
+    font-weight: normal;
+    color: #fff;
+    background: #3C4767;
+    cursor: pointer;
+}
+
+.accordion-container .accordion-title:hover,
+.accordion-container .accordion-title:active,
+.accordion-container .content-entry.open .accordion-title {
+    background-color: #00aaa7;
+    color: white;
+}
+
+.accordion-container .accordion-title:hover i:before,
+.accordion-container .accordion-title:hover i:active,
+.accordion-container .content-entry.open i {
+    color: white;
+}
+
+.accordion-title {
+    position: relative;
+}
+
+.accordion-title:after {
+    content: "";
+    position: absolute;
+    right: 25px;
+    top: 38%;
+    transition: all 0.2s ease-in-out;
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-top: solid 2px #fff;
+    border-right: solid 2px #fff;
+    -webkit-transform: rotate(135deg);
+    transform: rotate(135deg);
+}
+
+.accordion-title.open:after {
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    top: 45%;
+}
+
+.accordion-content {
+    display: none;
+    padding-left: 2em;
+}
+
+.accordion-container {
+    width: 300px;
+    margin: 0 0 0 auto;
 }
